@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const mongoose = require('mongoose');
 const server = require('http').createServer(app);
 
 module.exports.io = require('socket.io')(server);
@@ -19,5 +20,14 @@ server.listen( process.env.PORT, ( err ) => {
         throw new Error(err);
     }
 
-    console.log(`Servidor corriendo en el puerto ${ process.env.PORT }`);
+    console.log(`Servidor escuchando en el puerto ${ process.env.PORT }...`);
+});
+mongoose.connect( 'mongodb://localhost:27017/Bands', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+}, ( err ) => {
+    if ( err ) throw err;
+    console.log('Base de datos conectada...')
 });
